@@ -1,28 +1,38 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import Header from './components/Header.jsx';
+import UploadForm from './components/UploadForm.jsx';
+import InsightsCards from './components/InsightsCards.jsx';
+import SuggestionsPanel from './components/SuggestionsPanel.jsx';
+import Footer from './components/Footer.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [resumeText, setResumeText] = useState('');
+  const [jobText, setJobText] = useState('');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-950 to-black text-slate-100">
+      <Header />
 
-export default App
+      <main className="mx-auto w-full max-w-6xl px-4 md:px-6 lg:px-8">
+        <section className="mt-8">
+          <UploadForm
+            onUpdate={(data) => {
+              if (typeof data.resumeText === 'string') setResumeText(data.resumeText);
+              if (typeof data.jobText === 'string') setJobText(data.jobText);
+            }}
+          />
+        </section>
+
+        <section className="mt-10">
+          <InsightsCards resumeText={resumeText} jobText={jobText} />
+        </section>
+
+        <section className="mt-10">
+          <SuggestionsPanel resumeText={resumeText} jobText={jobText} />
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
